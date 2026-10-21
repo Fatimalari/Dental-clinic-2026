@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smileyce | Featured Dental Services</title>
+  <meta name="description" content="Cosmetic dentistry, orthodontics and endodontics at Smileyce.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Service icons, reused by every card -->
+  <svg width="0" height="0" class="sprite" aria-hidden="true">
+    <symbol id="icon-cosmetic" viewBox="0 0 32 32">
+      <!-- toothbrush -->
+      <rect x="9" y="3" width="19" height="2.2" rx="1.1"/>
+      <rect x="10" y="5.2" width="1.3" height="3" rx=".6"/>
+      <rect x="12.4" y="5.2" width="1.3" height="3" rx=".6"/>
+      <rect x="14.8" y="5.2" width="1.3" height="3" rx=".6"/>
+      <rect x="17.2" y="5.2" width="1.3" height="3" rx=".6"/>
+      <!-- tooth -->
+      <path d="M11.6 10.5c-2.2 0-3.4 1.8-3.4 4 0 2.9 1.2 5.2 1.9 8.2.5 2 1 3.3 2 3.3s1.4-2 1.7-4c.3-1.3.8-2 1.6-2s1.3.7 1.6 2c.3 2 .7 4 1.7 4s1.5-1.3 2-3.3c.7-3 1.9-5.3 1.9-8.2 0-2.2-1.2-4-3.4-4-1.5 0-2.4.9-3.8.9s-2.3-.9-3.8-.9z"/>
+      <!-- sparkles -->
+      <circle cx="5.5" cy="9" r="1"/><circle cx="4.5" cy="14" r=".8"/><circle cx="25.5" cy="11.5" r=".9"/><circle cx="26.5" cy="16.5" r=".7"/>
+    </symbol>
+    <symbol id="icon-ortho" viewBox="0 0 32 32">
+      <!-- drill -->
+      <rect x="13" y="3" width="15" height="2.6" rx="1.3"/>
+      <rect x="13" y="3" width="2.6" height="5.5" rx="1.2"/>
+      <!-- large tooth -->
+      <path d="M9.3 8.5c-1.9 0-2.9 1.5-2.9 3.4 0 2.5 1 4.4 1.6 7 .2.9.4 1.6.7 2.1h7.6c.3-.5.5-1.2.7-2.1.6-2.6 1.6-4.5 1.6-7 0-1.9-1-3.4-2.9-3.4-1.3 0-2 .8-3.2.8s-1.9-.8-3.2-.8z"/>
+      <!-- small tooth -->
+      <path d="M19.6 14.2c-1.2 0-1.8.9-1.8 2 0 1.6.6 2.8 1 4.3.1.2.1.4.2.5h5.2c.1-.1.1-.3.2-.5.4-1.5 1-2.7 1-4.3 0-1.1-.6-2-1.8-2-.8 0-1.3.5-2 .5s-1.2-.5-2-.5z"/>
+      <!-- base -->
+      <rect x="5" y="22.4" width="22" height="2.8" rx="1.2"/>
+      <rect x="5" y="26.4" width="22" height="1.6" rx=".8"/>
+    </symbol>
+    <symbol id="icon-endo" viewBox="0 0 32 32">
+      <!-- row of teeth with braces -->
+      <path d="M3 10.5c0-1.4 1-2.5 2.3-2.5.9 0 1.4.5 2 .5s1.1-.5 2-.5c1.3 0 2.3 1.1 2.3 2.5 0 2.2-.8 4-1.3 6.3-.3 1.4-.6 2.2-1.2 2.2s-.8-1.2-1-2.4c-.2-.9-.5-1.4-.8-1.4s-.6.5-.8 1.4c-.2 1.2-.4 2.4-1 2.4s-.9-.8-1.2-2.2C3.8 14.5 3 12.7 3 10.5z"/>
+      <path d="M11.6 9.5c0-1.4 1-2.5 2.3-2.5.9 0 1.4.5 2.1.5s1.2-.5 2.1-.5c1.3 0 2.3 1.1 2.3 2.5 0 2.3-.8 4.2-1.3 6.6-.3 1.5-.6 2.4-1.2 2.4s-.8-1.3-1-2.6c-.2-1-.5-1.5-.9-1.5s-.7.5-.9 1.5c-.2 1.3-.4 2.6-1 2.6s-.9-.9-1.2-2.4c-.5-2.4-1.3-4.3-1.3-6.6z"/>
+      <path d="M20.4 10.5c0-1.4 1-2.5 2.3-2.5.9 0 1.4.5 2 .5s1.1-.5 2-.5c1.3 0 2.3 1.1 2.3 2.5 0 2.2-.8 4-1.3 6.3-.3 1.4-.6 2.2-1.2 2.2s-.8-1.2-1-2.4c-.2-.9-.5-1.4-.8-1.4s-.6.5-.8 1.4c-.2 1.2-.4 2.4-1 2.4s-.9-.8-1.2-2.2c-.5-2.3-1.3-4.1-1.3-6.3z"/>
+      <!-- wire and brackets -->
+      <rect x="1.5" y="11.3" width="29" height="1.2" rx=".6"/>
+      <rect x="5.6" y="10.2" width="3.4" height="3.4" rx=".7" fill="#fff" stroke="currentColor" stroke-width="1.1"/>
+      <rect x="14.3" y="9.6" width="3.4" height="3.4" rx=".7" fill="#fff" stroke="currentColor" stroke-width="1.1"/>
+      <rect x="23" y="10.2" width="3.4" height="3.4" rx=".7" fill="#fff" stroke="currentColor" stroke-width="1.1"/>
+      <!-- lower teeth -->
+      <path d="M5 21.5h5.5v2.5c0 1.4-.9 2-2.7 2S5 25.4 5 24z"/>
+      <path d="M13.2 21.5h5.6v2.5c0 1.4-.9 2-2.8 2s-2.8-.6-2.8-2z"/>
+      <path d="M21.5 21.5H27v2.5c0 1.4-.9 2-2.7 2s-2.8-.6-2.8-2z"/>
+    </symbol>
+  </svg>
+
+  <main>
+    <section class="services" aria-labelledby="services-title">
+      <div class="services-head">
+        <h2 id="services-title">Our featured <span>services</span></h2>
+        <a class="btn" href="#">Explore services</a>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card">
+          <span class="service-icon"><svg><use href="#icon-cosmetic"/></svg></span>
+          <h3>Cosmetic Dentistry</h3>
+          <p>At Smileyce, cosmetic dentistry blends art and science to perfect your smile. We offer safe, effective solutions to whiten, reshape, and rejuvenate your teeth.</p>
+        </article>
+        <article class="service-card">
+          <span class="service-icon"><svg><use href="#icon-ortho"/></svg></span>
+          <h3>Orthodontics</h3>
+          <p>Straighten your teeth the modern way. Our orthodontic solutions gently correct alignment issues, helping you smile with confidence and improved oral health.</p>
+        </article>
+        <article class="service-card">
+          <span class="service-icon"><svg><use href="#icon-endo"/></svg></span>
+          <h3>Endodontics</h3>
+          <p>Endodontics is all about saving your teeth. Our skilled dentists use advanced techniques to treat infections and protect your smile from further damage.</p>
+        </article>
+        <article class="service-card">
+          <span class="service-icon"><svg><use href="#icon-cosmetic"/></svg></span>
+          <h3>Cosmetic Dentistry</h3>
+          <p>At Smileyce, cosmetic dentistry blends art and science to perfect your smile. We offer safe, effective solutions to whiten, reshape, and rejuvenate your teeth.</p>
+        </article>
+        <article class="service-card">
+          <span class="service-icon"><svg><use href="#icon-ortho"/></svg></span>
+          <h3>Orthodontics</h3>
+          <p>Straighten your teeth the modern way. Our orthodontic solutions gently correct alignment issues, helping you smile with confidence and improved oral health.</p>
+        </article>
+        <article class="service-card">
+          <span class="service-icon"><svg><use href="#icon-endo"/></svg></span>
+          <h3>Endodontics</h3>
+          <p>Endodontics is all about saving your teeth. Our skilled dentists use advanced techniques to treat infections and protect your smile from further damage.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
