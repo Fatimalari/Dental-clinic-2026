@@ -140,9 +140,9 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   border-image: conic-gradient(var(--white) 0 0) fill 0 // 0 100vmax;
 }
 
-/* Stacking scroll: each section pins at the top of the screen and the next
-   one slides up over it. script.js adds .stack only to sections that fit on
-   one screen, so a taller section is never partly hidden. */
+/* Stacking scroll: the hero pins at the top of the screen and the About
+   section slides up over it. script.js adds .stack only if the hero fits on
+   one screen; every later section scrolls normally. */
 .screen.stack { position: sticky; top: 0; }
 
 /* ---------- Hero ---------- */
@@ -163,7 +163,19 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* ---------- Mission ---------- */
 .mission { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .mission-title { max-width: 38ch; font-size: clamp(1.5rem, 3vw, 2.6rem); color: var(--ink); margin-bottom: clamp(20px, 4svh, 40px); }
-.mission-media { width: min(560px, 100%, calc(42svh * 560 / 390)); aspect-ratio: 560 / 390; margin-bottom: clamp(20px, 4svh, 40px); }
+/* The track is taller than the screen; the About screen inside it stays pinned
+   while you scroll through the extra height, and script.js grows the photo
+   from the frame's size to the full screen. */
+.mission-track { position: relative; height: 220vh; height: 220svh; }
+.mission.screen { position: sticky; top: 0; height: 100vh; height: 100svh; }
+.mission-frame { width: min(560px, 100%, calc(42svh * 560 / 390)); aspect-ratio: 560 / 390; margin-bottom: clamp(20px, 4svh, 40px); }
+.mission-media {
+  position: absolute; z-index: 2; margin: 0;
+  /* starting box; script.js keeps it matched to .mission-frame */
+  top: var(--m-top, 0); left: var(--m-left, 0); width: var(--m-width, 0); height: var(--m-height, 0);
+  border-radius: var(--m-radius, 0);
+}
+.mission-media img { position: absolute; inset: 0; }
 
 /* ---------- Services ---------- */
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }

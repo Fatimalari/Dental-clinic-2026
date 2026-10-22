@@ -51,12 +51,55 @@ function layoutStack() {
   const vh = window.innerHeight;
   sections.forEach((section, i) => {
     section.style.zIndex = String(i + 1);
-    section.classList.toggle('stack', section.offsetHeight <= vh + 1);
+    // only the hero pins; About slides over it and later sections scroll normally
+    section.classList.toggle('stack', i === 0 && section.offsetHeight <= vh + 1);
   });
 }
 layoutStack();
 window.addEventListener('resize', layoutStack);
 window.addEventListener('load', layoutStack);
+
+// About: while the pinned About screen is held, grow the team photo from its
+// frame to cover the whole screen, fading the heading and button out
+const missionTrack = document.querySelector('.mission-track');
+const missionScreen = missionTrack.querySelector('.mission');
+const missionFrame = missionTrack.querySelector('.mission-frame');
+const missionMedia = missionTrack.querySelector('.mission-media');
+const missionFade = [...missionScreen.querySelectorAll('.mission-title, .btn')];
+const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const lerp = (a, b, t) => a + (b - a) * t;
+
+function updateMission() {
+  const vh = window.innerHeight;
+  const travel = missionTrack.offsetHeight - vh;
+  const scrolled = -missionTrack.getBoundingClientRect().top;
+  // fully grown at 80% of the way through, then held briefly before moving on
+  const t = ease(Math.min(1, Math.max(0, scrolled / (travel * 0.8))));
+  const p = reduceMotion ? 0 : t;
+
+  // frame position relative to the pinned screen (the screen is a .container,
+  // so the full-screen target starts left of it by the page gutter)
+  const screenRect = missionScreen.getBoundingClientRect();
+  const frame = missionFrame.getBoundingClientRect();
+  const start = { top: frame.top - screenRect.top, left: frame.left - screenRect.left, width: frame.width, height: frame.height };
+  const end = { top: 0, left: -screenRect.left, width: window.innerWidth, height: vh };
+
+  missionMedia.style.setProperty('--m-top', lerp(start.top, end.top, p) + 'px');
+  missionMedia.style.setProperty('--m-left', lerp(start.left, end.left, p) + 'px');
+  missionMedia.style.setProperty('--m-width', lerp(start.width, end.width, p) + 'px');
+  missionMedia.style.setProperty('--m-height', lerp(start.height, end.height, p) + 'px');
+  missionFade.forEach((el) => { el.style.opacity = p > 0 ? String(Math.max(0, 1 - p * 2.5)) : ''; });
+}
+let missionTicking = false;
+const onMissionScroll = () => {
+  if (missionTicking) return;
+  missionTicking = true;
+  requestAnimationFrame(() => { updateMission(); missionTicking = false; });
+};
+window.addEventListener('scroll', onMissionScroll, { passive: true });
+window.addEventListener('resize', updateMission);
+window.addEventListener('load', updateMission);
+updateMission();
 
 // Header: menu toggle on phones, smooth jumps to sections, white logo over
 // the navy section, and highlight the link for the section on screen

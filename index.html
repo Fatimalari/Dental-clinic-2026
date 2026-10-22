@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="styles.css?v=13">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -66,12 +66,17 @@
     </section>
 
     <!-- Mission -->
-    <section class="mission screen container" id="about">
-      <h2 class="mission-title" data-reveal>Modern dentistry, without the intimidation. From your first checkup to your last touch-up, we explain every step before we do it.</h2>
-      <figure class="media mission-media" data-reveal="zoom">
-        <img src="assets/images/team.jpg" alt="The Smileyce dental team" width="1120" height="780" loading="lazy">
-      </figure>
-      <a class="btn btn-outline" href="#" data-reveal>Know us better</a>
+    <!-- Tall scroll track: the About screen stays pinned while the team photo
+         grows from its frame to cover the whole screen -->
+    <section class="mission-track" id="about">
+      <div class="mission screen container">
+        <h2 class="mission-title" data-reveal>Modern dentistry, without the intimidation. From your first checkup to your last touch-up, we explain every step before we do it.</h2>
+        <div class="mission-frame" aria-hidden="true"></div>
+        <a class="btn btn-outline" href="#" data-reveal>Know us better</a>
+        <figure class="media mission-media">
+          <img src="assets/images/team.jpg" alt="The Smileyce dental team" width="1120" height="780" loading="lazy">
+        </figure>
+      </div>
     </section>
 
     <!-- Featured services -->
@@ -163,6 +168,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=11"></script>
+  <script src="script.js?v=13"></script>
 </body>
 </html>
