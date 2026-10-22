@@ -20,6 +20,8 @@
   --font: "Montserrat", system-ui, -apple-system, "Segoe UI", sans-serif;
   --container: 1280px;
   --radius: 4px;
+  --header-h: 88px;
+  --nav-bg: rgba(238, 240, 248, 0.88);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-fast: 180ms;
@@ -60,6 +62,46 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   margin-bottom: clamp(20px, 4svh, 40px);
 }
 
+/* ---------- Floating header ---------- */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--header-h);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 0 max(16px, calc((100vw - var(--container)) / 2));
+  pointer-events: none;
+}
+.site-header > * { pointer-events: auto; }
+.logo {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--navy); text-decoration: none;
+  transition: color var(--dur) ease;
+}
+.logo-mark { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+.site-header.on-dark .logo { color: var(--white); }
+
+.nav-pill {
+  position: relative;
+  display: flex; align-items: center; gap: 2px;
+  padding: 5px; border-radius: 8px;
+  background: var(--nav-bg);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 24px -16px rgba(11, 22, 80, 0.45);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+}
+.nav-links { display: flex; align-items: center; gap: 2px; }
+.nav-links a, .nav-cta, .nav-menu-btn {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 18px; border-radius: 5px;
+  font: 500 0.75rem/1 var(--font); letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
+  transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+.nav-links a { color: #1d2333; }
+.nav-links a:hover, .nav-links a[aria-current="true"] { background: rgba(11, 22, 80, 0.07); color: var(--navy); }
+.nav-cta { background: var(--navy); color: var(--white); margin-left: 4px; white-space: nowrap; }
+.nav-cta:hover { background: var(--navy-hover); }
+.nav-menu-btn { display: none; border: 0; background: none; color: #1d2333; cursor: pointer; }
+
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -93,6 +135,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   min-height: 100vh; min-height: 100svh;
   display: flex; flex-direction: column; justify-content: center;
   padding-block: clamp(32px, 6svh, 72px);
+  padding-top: max(var(--header-h), clamp(32px, 6svh, 72px));
   background: var(--white);
   /* paint the white background edge to edge, not just inside the container */
   border-image: conic-gradient(var(--white) 0 0) fill 0 // 0 100vmax;
@@ -102,13 +145,6 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
    one slides up over it. script.js adds .stack only to sections that fit on
    one screen, so a taller section is never partly hidden. */
 .screen.stack { position: sticky; top: 0; }
-
-/* soft shadow along the top edge of each incoming section */
-.screen + .screen::before {
-  content: ""; position: absolute; left: -100vmax; right: -100vmax; top: -32px; height: 32px;
-  background: linear-gradient(to top, rgba(11, 22, 80, 0.10), rgba(11, 22, 80, 0));
-  pointer-events: none;
-}
 
 /* ---------- Hero ---------- */
 .hero {
@@ -171,14 +207,15 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 }
 .stat {
   display: flex; flex-direction: column; justify-content: center; gap: 2px;
-  min-height: min(250px, 30svh); padding: 24px 20px; background: var(--tile);
+  min-height: min(250px, 26svh); padding: 24px 20px; background: var(--tile);
   font-weight: 600; font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.2; color: var(--navy-text);
   transition: background-color var(--dur) ease;
 }
 .stat span:last-child { max-width: 13ch; }
 .stat:hover { background: #e8e9ef; }
 .stat-num { font-variant-numeric: tabular-nums; }
-.brighten-media { grid-column: 3; grid-row: 1 / span 2; min-height: 100%; }
+.brighten-media { grid-column: 3; grid-row: 1 / span 2; min-height: 100%; position: relative; }
+.brighten-media img { position: absolute; inset: 0; }
 
 /* ---------- Booking ---------- */
 .book.screen { background: var(--navy); border-image: none; text-align: center; }
@@ -241,8 +278,26 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   .stat { min-height: min(180px, 18svh); }
 }
 
+@media (max-width: 760px) {
+  :root { --header-h: 72px; }
+  .nav-menu-btn { display: inline-flex; }
+  .nav-links {
+    position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px;
+    flex-direction: column; align-items: stretch; padding: 6px; border-radius: 8px;
+    background: var(--nav-bg); border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 16px 32px -16px rgba(11, 22, 80, 0.45);
+    backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    opacity: 0; transform: translateY(-6px); visibility: hidden; pointer-events: none;
+    transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out), visibility 0s linear var(--dur);
+  }
+  .nav-links.open { opacity: 1; transform: none; visibility: visible; pointer-events: auto; transition-delay: 0s; }
+  .nav-links a { min-height: 44px; }
+  .nav-links a, .nav-cta, .nav-menu-btn { padding: 0 14px; }
+  .hide-sm { display: none; }
+}
+
 @media (max-width: 600px) {
-  .screen { padding-block: 40px; }
+  .screen { padding-block: 40px; padding-top: var(--header-h); }
   .services-grid { grid-template-columns: 1fr; }
   .services-grid { gap: 12px; }
   .service-card {

@@ -58,6 +58,56 @@ layoutStack();
 window.addEventListener('resize', layoutStack);
 window.addEventListener('load', layoutStack);
 
+// Header: menu toggle on phones, smooth jumps to sections, white logo over
+// the navy section, and highlight the link for the section on screen
+const header = document.getElementById('site-header');
+const navLinks = document.getElementById('nav-links');
+const menuBtn = header.querySelector('.nav-menu-btn');
+const setMenu = (open) => {
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuBtn.textContent = open ? 'Close' : 'Menu';
+  navLinks.classList.toggle('open', open);
+};
+menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+document.addEventListener('click', (e) => { if (!header.contains(e.target)) setMenu(false); });
+
+// Pinned sections report their stuck position, so measure where each one
+// starts in the page by adding up the heights of the sections before it
+const sectionStart = (target) => {
+  let y = 0;
+  for (const section of sections) {
+    if (section === target) return y;
+    y += section.offsetHeight;
+  }
+  return y;
+};
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  const href = link.getAttribute('href');
+  if (href.length < 2) return;
+  const target = document.querySelector(href);
+  if (!target || !sections.includes(target)) return;
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    setMenu(false);
+    window.scrollTo({ top: sectionStart(target), behavior: reduceMotion ? 'auto' : 'smooth' });
+    history.replaceState(null, '', link.getAttribute('href'));
+  });
+});
+
+const navAnchors = [...navLinks.querySelectorAll('a')];
+function updateHeader() {
+  const probe = header.offsetHeight / 2;
+  // the section drawn under the header is the last one whose top has reached it
+  let current = sections[0];
+  sections.forEach((section) => { if (section.getBoundingClientRect().top <= probe) current = section; });
+  header.classList.toggle('on-dark', current.classList.contains('book'));
+  navAnchors.forEach((a) => a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + current.id)));
+}
+window.addEventListener('scroll', updateHeader, { passive: true });
+window.addEventListener('resize', updateHeader);
+updateHeader();
+
 // Technology list: underline slides to the hovered / selected item
 const techList = document.querySelector('.tech-list');
 if (techList) {
