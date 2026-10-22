@@ -56,7 +56,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .section-title {
   text-align: center; color: var(--navy-text);
   font-size: clamp(1.75rem, 3.2vw, 2.75rem);
-  margin-bottom: 40px;
+  margin-bottom: clamp(20px, 4svh, 40px);
 }
 
 /* ---------- Buttons ---------- */
@@ -84,14 +84,14 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .media img { width: 100%; height: 100%; object-fit: cover; }
 .media img.missing { visibility: hidden; }
 
-/* ---------- Section rhythm ---------- */
-/* Hero fills the first screen; later sections flow straight on from each other */
+/* ---------- Full-screen sections ---------- */
+/* Every section fills one screen, and its content is sized to the screen
+   height so the whole section is visible at once, even on short laptops. */
 .screen {
+  min-height: 100vh; min-height: 100svh;
   display: flex; flex-direction: column; justify-content: center;
-  padding-block: 64px;
+  padding-block: clamp(32px, 6svh, 72px);
 }
-.hero.screen { min-height: 100vh; min-height: 100svh; }
-.book.screen { padding-block: 96px; margin-top: 64px; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -110,13 +110,13 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 
 /* ---------- Mission ---------- */
 .mission { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.mission-title { max-width: 38ch; font-size: clamp(1.5rem, 3vw, 2.6rem); color: var(--ink); margin-bottom: 40px; }
-.mission-media { width: min(560px, 100%); aspect-ratio: 560 / 390; margin-bottom: 40px; }
+.mission-title { max-width: 38ch; font-size: clamp(1.5rem, 3vw, 2.6rem); color: var(--ink); margin-bottom: clamp(20px, 4svh, 40px); }
+.mission-media { width: min(560px, 100%, calc(42svh * 560 / 390)); aspect-ratio: 560 / 390; margin-bottom: clamp(20px, 4svh, 40px); }
 
 /* ---------- Services ---------- */
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 .service-card {
-  display: flex; flex-direction: column; min-height: 380px; padding: 32px;
+  display: flex; flex-direction: column; min-height: min(380px, 52svh); padding: 32px;
   border: 1px solid var(--card-border); border-radius: 2px; background: var(--white);
   transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
 }
@@ -134,7 +134,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 
 /* ---------- Technology ---------- */
 .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-.tech-media { aspect-ratio: 570 / 530; }
+.tech-media { aspect-ratio: 570 / 530; width: min(100%, calc(62svh * 570 / 530)); }
 .tech-list { position: relative; list-style: none; padding: 0; margin: 0; }
 .tech-list li { border-bottom: 1px solid var(--line); }
 .tech-list button {
@@ -154,7 +154,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 }
 .stat {
   display: flex; flex-direction: column; justify-content: center; gap: 2px;
-  min-height: 250px; padding: 32px 20px; background: var(--tile);
+  min-height: min(250px, 30svh); padding: 24px 20px; background: var(--tile);
   font-weight: 600; font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.2; color: var(--navy-text);
   transition: background-color var(--dur) ease;
 }
@@ -166,7 +166,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* ---------- Booking ---------- */
 .book { background: var(--navy); text-align: center; }
 .book-inner { padding-inline: 24px; }
-.book h2 { color: var(--white); font-size: clamp(1.8rem, 3.6vw, 3rem); max-width: 22ch; margin: 0 auto 44px; }
+.book h2 { color: var(--white); font-size: clamp(1.8rem, 3.6vw, 3rem); max-width: 22ch; margin: 0 auto clamp(24px, 4svh, 44px); }
 .book-form {
   display: grid; grid-template-columns: 1fr 1fr; gap: 28px 32px;
   width: min(840px, 100%); margin: 0 auto; text-align: left;
@@ -174,7 +174,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .field { position: relative; }
 .field-full { grid-column: 1 / -1; }
 .field input, .field select, .field textarea {
-  width: 100%; min-height: 72px; padding: 30px 28px 10px;
+  width: 100%; min-height: clamp(56px, 8svh, 72px); padding: 26px 28px 8px;
   border: 1.5px solid rgba(255, 255, 255, 0.85); border-radius: 0; background: transparent;
   font: 400 1rem var(--font); color: var(--white);
   appearance: none; resize: none;
@@ -217,20 +217,27 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
   .services-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
-  .tech-grid { grid-template-columns: 1fr; gap: 32px; }
-  .brighten-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; gap: 16px; }
-  .brighten-media { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 4 / 3; }
-  .stat { min-height: 180px; }
+  .tech-grid { grid-template-columns: 1fr; gap: clamp(16px, 3svh, 32px); }
+  .tech-media { width: min(100%, calc(34svh * 570 / 530)); justify-self: center; }
+  .brighten-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; gap: 12px; }
+  .brighten-media { grid-column: 1 / -1; grid-row: auto; min-height: 0; height: 30svh; }
+  .stat { min-height: min(180px, 18svh); }
 }
 
 @media (max-width: 600px) {
-  .screen { padding-block: 48px; }
-  .book.screen { padding-block: 64px; margin-top: 48px; }
+  .screen { padding-block: 40px; }
   .services-grid { grid-template-columns: 1fr; }
-  .service-card { min-height: 0; }
-  .service-card h3 { padding-top: 0; margin-top: 40px; font-size: 1.5rem; }
-  .tech-list button { font-size: 1.3rem; padding: 20px 0; }
-  .stat { min-height: 150px; padding: 20px 16px; }
+  .services-grid { gap: 12px; }
+  .service-card {
+    min-height: 0; padding: 18px 20px;
+    display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 14px;
+  }
+  .service-icon { width: 48px; height: 48px; }
+  .service-icon svg { width: 26px; height: 26px; }
+  .service-card h3 { margin: 0; padding-top: 0; font-size: 1.25rem; }
+  .service-card p { grid-column: 1 / -1; margin-top: 10px; font-size: 0.875rem; }
+  .tech-list button { font-size: 1.15rem; padding: clamp(10px, 2svh, 18px) 0; }
+  .stat { min-height: min(150px, 15svh); padding: 14px 16px; font-size: 1.1rem; }
   .book-inner { padding-inline: 0; }
   .book-form { grid-template-columns: 1fr; gap: 16px; }
   .field input, .field select, .field textarea { padding-left: 18px; padding-right: 18px; }
