@@ -44,6 +44,20 @@ if ('IntersectionObserver' in window && !reduceMotion) {
   revealEls.forEach((el) => el.classList.add('in'));
 }
 
+// Curtain reveal: stack sections so earlier ones sit on top, and pin each
+// section that fits on one screen underneath the section above it
+const sections = [...document.querySelectorAll('main > section')];
+function layoutCurtain() {
+  const vh = window.innerHeight;
+  sections.forEach((section, i) => {
+    section.style.zIndex = String(sections.length - i);
+    section.classList.toggle('curtain', section.offsetHeight <= vh + 1);
+  });
+}
+layoutCurtain();
+window.addEventListener('resize', layoutCurtain);
+window.addEventListener('load', layoutCurtain);
+
 // Technology list: underline slides to the hovered / selected item
 const techList = document.querySelector('.tech-list');
 if (techList) {
