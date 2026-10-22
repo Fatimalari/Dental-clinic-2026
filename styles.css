@@ -84,10 +84,18 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .media img { width: 100%; height: 100%; object-fit: cover; }
 .media img.missing { visibility: hidden; }
 
+/* ---------- Full-screen sections ---------- */
+.screen {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-block: 96px;
+}
+
 /* ---------- Hero ---------- */
 .hero {
   display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding: 140px 0 180px;
+  padding: 0;
 }
 .tag {
   padding: 5px 12px; border: 1px solid var(--tag-border); border-radius: 3px; background: var(--tag-bg);
@@ -100,12 +108,11 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .hero-text { max-width: 30rem; font-size: 1rem; color: var(--text); margin-bottom: 36px; }
 
 /* ---------- Mission ---------- */
-.mission { display: flex; flex-direction: column; align-items: center; text-align: center; padding-bottom: 140px; }
+.mission { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .mission-title { max-width: 38ch; font-size: clamp(1.5rem, 3vw, 2.6rem); color: var(--ink); margin-bottom: 40px; }
 .mission-media { width: min(560px, 100%); aspect-ratio: 560 / 390; margin-bottom: 40px; }
 
 /* ---------- Services ---------- */
-.services { padding-bottom: 140px; }
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
 .service-card {
   display: flex; flex-direction: column; min-height: 380px; padding: 32px;
@@ -125,7 +132,6 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .service-card p { font-size: 0.9375rem; line-height: 1.5; color: var(--text-soft); }
 
 /* ---------- Technology ---------- */
-.tech { padding-bottom: 140px; }
 .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .tech-media { aspect-ratio: 570 / 530; }
 .tech-list { position: relative; list-style: none; padding: 0; margin: 0; }
@@ -137,12 +143,11 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 }
 .tech-list button[aria-pressed="true"] { transform: translateX(10px); }
 .tech-indicator {
-  position: absolute; left: 0; right: 0; height: 2px; background: var(--navy);
+  position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--navy);
   transform-origin: left; transition: transform 450ms var(--ease-out);
 }
 
 /* ---------- Stats ---------- */
-.brighten { padding-bottom: 120px; }
 .brighten-grid {
   display: grid; grid-template-columns: 1fr 1fr 1.3fr; grid-template-rows: 1fr 1fr; gap: 32px;
 }
@@ -158,8 +163,8 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .brighten-media { grid-column: 3; grid-row: 1 / span 2; min-height: 100%; }
 
 /* ---------- Booking ---------- */
-.book-wrap { padding-bottom: 120px; }
-.book { background: var(--navy); padding: 72px 24px 80px; text-align: center; }
+.book { background: var(--navy); text-align: center; }
+.book-inner { padding-inline: 24px; }
 .book h2 { color: var(--white); font-size: clamp(1.8rem, 3.6vw, 3rem); max-width: 22ch; margin: 0 auto 44px; }
 .book-form {
   display: grid; grid-template-columns: 1fr 1fr; gap: 28px 32px;
@@ -210,7 +215,6 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
-  .hero { padding: 96px 0 120px; }
   .services-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
   .tech-grid { grid-template-columns: 1fr; gap: 32px; }
   .brighten-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; gap: 16px; }
@@ -219,13 +223,13 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 }
 
 @media (max-width: 600px) {
-  .mission, .services, .tech { padding-bottom: 96px; }
+  .screen { padding-block: 72px; }
   .services-grid { grid-template-columns: 1fr; }
   .service-card { min-height: 0; }
   .service-card h3 { padding-top: 0; margin-top: 40px; font-size: 1.5rem; }
   .tech-list button { font-size: 1.3rem; padding: 20px 0; }
   .stat { min-height: 150px; padding: 20px 16px; }
-  .book { padding: 48px 16px 56px; }
+  .book-inner { padding-inline: 0; }
   .book-form { grid-template-columns: 1fr; gap: 16px; }
   .field input, .field select, .field textarea { padding-left: 18px; padding-right: 18px; }
   .field label { left: 18px; }
