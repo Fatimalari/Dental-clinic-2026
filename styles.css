@@ -30,6 +30,7 @@
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+html, body { overflow-x: clip; }
 body {
   margin: 0;
   font-family: var(--font);
@@ -94,14 +95,20 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   padding-block: clamp(32px, 6svh, 72px);
   background: var(--white);
   /* paint the white background edge to edge, not just inside the container */
-  box-shadow: 0 0 0 100vmax var(--white);
-  clip-path: inset(0 -100vmax);
+  border-image: conic-gradient(var(--white) 0 0) fill 0 // 0 100vmax;
 }
 
-/* Curtain reveal: each section waits, pinned, underneath the one above it,
-   so scrolling a section up uncovers the next one already in place.
-   script.js adds .curtain only to sections that fit on one screen. */
-.screen.curtain { position: sticky; bottom: 0; }
+/* Stacking scroll: each section pins at the top of the screen and the next
+   one slides up over it. script.js adds .stack only to sections that fit on
+   one screen, so a taller section is never partly hidden. */
+.screen.stack { position: sticky; top: 0; }
+
+/* soft shadow along the top edge of each incoming section */
+.screen + .screen::before {
+  content: ""; position: absolute; left: -100vmax; right: -100vmax; top: -32px; height: 32px;
+  background: linear-gradient(to top, rgba(11, 22, 80, 0.10), rgba(11, 22, 80, 0));
+  pointer-events: none;
+}
 
 /* ---------- Hero ---------- */
 .hero {
@@ -174,7 +181,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .brighten-media { grid-column: 3; grid-row: 1 / span 2; min-height: 100%; }
 
 /* ---------- Booking ---------- */
-.book.screen { background: var(--navy); box-shadow: none; clip-path: none; text-align: center; }
+.book.screen { background: var(--navy); border-image: none; text-align: center; }
 .book-inner { padding-inline: 24px; }
 .book h2 { color: var(--white); font-size: clamp(1.8rem, 3.6vw, 3rem); max-width: 22ch; margin: 0 auto clamp(24px, 4svh, 44px); }
 .book-form {

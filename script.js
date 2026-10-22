@@ -44,19 +44,19 @@ if ('IntersectionObserver' in window && !reduceMotion) {
   revealEls.forEach((el) => el.classList.add('in'));
 }
 
-// Curtain reveal: stack sections so earlier ones sit on top, and pin each
-// section that fits on one screen underneath the section above it
+// Stacking scroll: later sections sit on top, and each section that fits on
+// one screen pins at the top so the next one slides up over it
 const sections = [...document.querySelectorAll('main > section')];
-function layoutCurtain() {
+function layoutStack() {
   const vh = window.innerHeight;
   sections.forEach((section, i) => {
-    section.style.zIndex = String(sections.length - i);
-    section.classList.toggle('curtain', section.offsetHeight <= vh + 1);
+    section.style.zIndex = String(i + 1);
+    section.classList.toggle('stack', section.offsetHeight <= vh + 1);
   });
 }
-layoutCurtain();
-window.addEventListener('resize', layoutCurtain);
-window.addEventListener('load', layoutCurtain);
+layoutStack();
+window.addEventListener('resize', layoutStack);
+window.addEventListener('load', layoutStack);
 
 // Technology list: underline slides to the hovered / selected item
 const techList = document.querySelector('.tech-list');
