@@ -225,45 +225,35 @@ if (svcTrack) {
   }
 }
 
-// Technology: while the pinned screen is held, move the list up one item at a
-// time; the item at the top is the active one and the image swaps to match
-const techTrack = document.querySelector('.tech-track');
-if (techTrack && !reduceMotion) {
-  const techItems = [...techTrack.querySelectorAll('.tech-list li')];
-  const techList = techTrack.querySelector('.tech-list');
-  const techImages = [...techTrack.querySelectorAll('.tech-media')];
-  const steps = techItems.length - 1;
-  // each item rests for a moment before the next one slides up
-  const dwell = (f) => { const x = Math.min(1, Math.max(0, (f - 0.3) / 0.4)); return x * x * (3 - 2 * x); };
-
-  let techTicking = false;
-  const updateTech = () => {
-    // the pinned screen is shorter than the window, so measure against it
-    const travel = techTrack.offsetHeight - techTrack.querySelector('.tech.screen').offsetHeight;
-    const progress = Math.min(1, Math.max(0, -techTrack.getBoundingClientRect().top / travel));
-    const raw = progress * steps;
-    const step = Math.min(steps, Math.floor(raw));
-    const pos = step + (step < steps ? dwell(raw - step) : 0);
-    const itemH = techItems[0].offsetHeight;
-
-    techList.style.transform = `translateY(${-pos * itemH}px)`;
-    techItems.forEach((item, i) => {
-      const d = i - pos;
-      // items above the top fade away; the active one is solid; the rest wait, faded
-      const opacity = d < 0 ? Math.max(0, 1 + d * 1.6) : 1 - Math.min(1, d) * 0.65;
-      item.style.opacity = opacity.toFixed(3);
+// Technology tabs: click a pill (or use the arrow keys) to show its panel
+const techTabs = [...document.querySelectorAll('.tech-tab')];
+if (techTabs.length) {
+  const select = (tab, focus) => {
+    techTabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      panel.classList.toggle('is-active', on);
+      panel.hidden = !on;
     });
-    const active = Math.round(pos);
-    techImages.forEach((img, i) => img.classList.toggle('is-active', i === active));
-    techTicking = false;
+    if (focus) tab.focus();
+    // on phones the pill row scrolls sideways: bring the chosen pill into view
+    const bar = tab.parentElement;
+    if (bar.scrollWidth > bar.clientWidth) {
+      bar.scrollTo({ left: tab.offsetLeft - (bar.clientWidth - tab.offsetWidth) / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
   };
-  window.addEventListener('scroll', () => {
-    if (techTicking) return;
-    techTicking = true;
-    requestAnimationFrame(updateTech);
-  }, { passive: true });
-  window.addEventListener('resize', updateTech);
-  updateTech();
+  techTabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(tab));
+    tab.addEventListener('keydown', (e) => {
+      const n = techTabs.length;
+      const next = { ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, Home: 0, End: n - 1 }[e.key];
+      if (next === undefined) return;
+      e.preventDefault();
+      select(techTabs[next], true);
+    });
+  });
 }
 
 // Booking form: client-side validation only. Connect it to a form service

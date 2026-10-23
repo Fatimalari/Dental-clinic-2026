@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=26">
+  <link rel="stylesheet" href="styles.css?v=27">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -155,37 +155,72 @@
     </section>
 
     <!-- Technology -->
-    <!-- Tall scroll track: the Technology screen stays pinned while the list
-         scrolls up one item at a time and the image swaps to match.
-         PLACEHOLDER names: replace "Technology 1-4" with the real ones. -->
-    <section class="tech-track" id="technology" aria-labelledby="tech-title">
-      <div class="tech screen container">
-        <h2 class="section-title" id="tech-title">Advanced system for <br>clinical precision</h2>
-        <div class="tech-grid">
-          <div class="tech-media-stack">
-          <figure class="media tech-media is-active" data-label="Technology 1 image">
-            <img src="assets/images/technology-1.jpg" alt="Digital smile design software showing a 3D model of teeth" width="1140" height="1060" loading="lazy">
+    <!-- Technology: tabs with a detail panel. Pills use plain language; the
+         panel heading gives the technical name. PLACEHOLDER descriptions,
+         numbers and photos: replace with the real ones. -->
+    <section class="tech screen container" id="technology" aria-labelledby="tech-title">
+      <h2 class="section-title" id="tech-title">Advanced system for <br>clinical precision</h2>
+      <div class="tech-tabs" role="tablist" aria-label="Our technology">
+        <button class="tech-tab" type="button" role="tab" id="tech-1-tab" aria-controls="tech-1" aria-selected="true" tabindex="0">3D Scanning</button>
+        <button class="tech-tab" type="button" role="tab" id="tech-2-tab" aria-controls="tech-2" aria-selected="false" tabindex="-1">Smile Preview</button>
+        <button class="tech-tab" type="button" role="tab" id="tech-3-tab" aria-controls="tech-3" aria-selected="false" tabindex="-1">Same-day Crowns</button>
+        <button class="tech-tab" type="button" role="tab" id="tech-4-tab" aria-controls="tech-4" aria-selected="false" tabindex="-1">In-house Lab</button>
+      </div>
+      <div class="tech-panels">
+        <div class="tech-panel is-active" role="tabpanel" id="tech-1" aria-labelledby="tech-1-tab">
+          <figure class="media tech-media" data-label="3D Scanning photo">
+            <img src="assets/images/technology-1.jpg" alt="Dentist using an intraoral scanner" width="1200" height="900" loading="lazy">
           </figure>
-          <figure class="media tech-media" data-label="Technology 2 image">
-            <img src="assets/images/technology-2.jpg" alt="Technology 2" width="1140" height="1060" loading="lazy">
-          </figure>
-          <figure class="media tech-media" data-label="Technology 3 image">
-            <img src="assets/images/technology-3.jpg" alt="Technology 3" width="1140" height="1060" loading="lazy">
-          </figure>
-          <figure class="media tech-media" data-label="Technology 4 image">
-            <img src="assets/images/technology-4.jpg" alt="Technology 4" width="1140" height="1060" loading="lazy">
-          </figure>
+          <div class="tech-copy">
+            <h3>Primescan® Intraoral Scanner</h3>
+            <p>Replaces messy impressions with a fast, comfortable 3D scan, accurate enough to design crowns, aligners and implants straight from the image.</p>
+            <dl class="tech-stats">
+              <div><dt>2 min</dt><dd>full-mouth scan</dd></div>
+              <div><dt>0.02 mm</dt><dd>accuracy</dd></div>
+            </dl>
+            <a class="btn btn-outline" href="#">Learn more</a>
           </div>
-          <div class="tech-panel">
-            <p class="tech-eyebrow">Technology</p>
-            <div class="tech-window">
-              <ol class="tech-list">
-              <li><h3>Technology 1</h3><a class="tech-more" href="#">Learn more</a></li>
-              <li><h3>Technology 2</h3><a class="tech-more" href="#">Learn more</a></li>
-              <li><h3>Technology 3</h3><a class="tech-more" href="#">Learn more</a></li>
-              <li><h3>Technology 4</h3><a class="tech-more" href="#">Learn more</a></li>
-              </ol>
-            </div>
+        </div>
+        <div class="tech-panel" role="tabpanel" id="tech-2" aria-labelledby="tech-2-tab" hidden>
+          <figure class="media tech-media" data-label="Smile Preview photo">
+            <img src="assets/images/technology-2.jpg" alt="Digital smile design software showing a 3D model of teeth" width="1200" height="900" loading="lazy">
+          </figure>
+          <div class="tech-copy">
+            <h3>Digital Smile Design (Smilecloud)</h3>
+            <p>We design your new smile on screen from photos and scans, so you can see it and approve it before any treatment begins.</p>
+            <dl class="tech-stats">
+              <div><dt>3D</dt><dd>preview of your smile</dd></div>
+              <div><dt>0</dt><dd>surprises at the end</dd></div>
+            </dl>
+            <a class="btn btn-outline" href="#">Learn more</a>
+          </div>
+        </div>
+        <div class="tech-panel" role="tabpanel" id="tech-3" aria-labelledby="tech-3-tab" hidden>
+          <figure class="media tech-media" data-label="Same-day Crowns photo">
+            <img src="assets/images/technology-3.jpg" alt="Milling machine shaping a dental crown" width="1200" height="900" loading="lazy">
+          </figure>
+          <div class="tech-copy">
+            <h3>CAD/CAM Design, Milling &amp; Printing</h3>
+            <p>Crowns, veneers and inlays are designed digitally and milled or printed right here in the clinic, often in a single visit.</p>
+            <dl class="tech-stats">
+              <div><dt>1 visit</dt><dd>for most crowns</dd></div>
+              <div><dt>No</dt><dd>temporary crown</dd></div>
+            </dl>
+            <a class="btn btn-outline" href="#">Learn more</a>
+          </div>
+        </div>
+        <div class="tech-panel" role="tabpanel" id="tech-4" aria-labelledby="tech-4-tab" hidden>
+          <figure class="media tech-media" data-label="In-house Lab photo">
+            <img src="assets/images/technology-4.jpg" alt="Technician finishing a crown in the clinic laboratory" width="1200" height="900" loading="lazy">
+          </figure>
+          <div class="tech-copy">
+            <h3>Precision Dental Laboratory</h3>
+            <p>Our own lab technicians work alongside your dentist for a precise fit, natural shade matching and a faster turnaround.</p>
+            <dl class="tech-stats">
+              <div><dt>On-site</dt><dd>technicians</dd></div>
+              <div><dt>Faster</dt><dd>turnaround</dd></div>
+            </dl>
+            <a class="btn btn-outline" href="#">Learn more</a>
           </div>
         </div>
       </div>
@@ -243,6 +278,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=26"></script>
+  <script src="script.js?v=27"></script>
 </body>
 </html>

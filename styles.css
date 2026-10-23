@@ -250,7 +250,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .services-track {
   position: relative; height: 450vh; height: 450svh; background: var(--white);
 }
-.services-track + .tech-track { margin-top: calc(-1 * var(--svc-bottom)); }
+.services-track + .tech { margin-top: calc(-1 * var(--svc-bottom)); }
 /* centred heading like the other sections, then the list (left) and a framed
    photo (right) within the page margins */
 .services.screen {
@@ -307,49 +307,40 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .reduce .svc-title { color: var(--navy-text); }
 
 /* ---------- Technology ---------- */
-/* The track is taller than the screen; the Technology screen inside it stays
-   pinned while script.js moves the list up one item at a time. */
-/* solid white so the pinned hero never shows below the shorter pinned screen */
-.tech-track { position: relative; height: 320vh; height: 320svh; background: var(--white); }
-/* the pinned screen is only as tall as its content, so the next section
-   follows one --section-gap after it */
-.tech.screen { position: sticky; top: 0; }
-.tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-.tech-media-stack { position: relative; overflow: hidden; aspect-ratio: 570 / 530; width: min(100%, calc(60svh * 570 / 530)); }
-.tech-media {
-  position: absolute; inset: 0;
-  opacity: 0; scale: 1.04;
-  transition: opacity 500ms var(--ease-out), scale 900ms var(--ease-out);
+/* Tabs with a detail panel. Not pinned: the page scrolls freely, and visitors
+   click (or use arrow keys on) the pills to switch technology. */
+.tech-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(24px, 4svh, 40px); }
+.tech-tab {
+  min-height: 44px; padding: 0 22px; border: 0; border-radius: 999px; cursor: pointer;
+  font: 500 0.9375rem/1 var(--font); color: var(--navy-text); background: #eceef7;
+  transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease;
 }
-.tech-media.is-active { opacity: 1; scale: 1; }
-/* until a photo is added, the grey box names which image goes there */
+.tech-tab:hover { background: #dfe2f1; }
+.tech-tab[aria-selected="true"] { background: var(--navy); color: var(--white); }
+
+/* all panels share one grid cell so the outgoing and incoming ones crossfade */
+.tech-panels { display: grid; }
+.tech-panel {
+  grid-area: 1 / 1; display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: center;
+  opacity: 0; visibility: hidden; transition: opacity 450ms var(--ease-out), visibility 0s linear 450ms;
+}
+.tech-panel[hidden] { display: grid; }
+.tech-panel.is-active { opacity: 1; visibility: visible; transition-delay: 0s; }
+.tech-media { aspect-ratio: 4 / 3; max-height: 50svh; width: 100%; }
+.tech-media img { scale: 1.04; transition: scale 900ms var(--ease-out); }
+.tech-panel.is-active .tech-media img { scale: 1; }
 .tech-media:has(img.missing)::after {
   content: attr(data-label); position: absolute; inset: 0; display: grid; place-items: center;
   font-size: 0.875rem; letter-spacing: 0.08em; text-transform: uppercase; color: #8a8d99;
 }
-
-.tech-panel { --item-h: clamp(64px, 11svh, 104px); }
-.tech-eyebrow {
-  font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-soft);
-  padding-bottom: 12px; border-bottom: 1px solid var(--line);
-}
-.tech-window { height: calc(var(--item-h) * 4); overflow: hidden; }
-.tech-list { list-style: none; padding: 0; margin: 0; will-change: transform; }
-.tech-list li {
-  height: var(--item-h);
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  border-bottom: 1px solid var(--line);
-}
-.tech-list h3 { margin: 0; font-size: clamp(1.4rem, 2.6vw, 2.25rem); font-weight: 600; color: var(--navy-text); }
-.tech-more {
-  flex-shrink: 0; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--navy-text); text-decoration: underline; text-underline-offset: 4px;
-}
-
-/* With reduced motion the list simply sits still and every item is shown */
-.reduce .tech-track { height: auto; }
-.reduce .tech.screen { position: relative; height: auto; }
-.reduce .tech-window { height: auto; }
+.tech-media { position: relative; }
+.tech-copy { translate: 0 12px; transition: translate 500ms var(--ease-out); }
+.tech-panel.is-active .tech-copy { translate: 0 0; }
+.tech-copy h3 { font-size: clamp(1.5rem, 2.4vw, 2.1rem); color: var(--navy-text); margin-bottom: 14px; }
+.tech-copy p { max-width: 30em; font-size: 1rem; line-height: 1.65; color: var(--text); }
+.tech-stats { display: flex; gap: clamp(24px, 4vw, 48px); margin: clamp(18px, 3svh, 28px) 0; }
+.tech-stats dt { font-size: clamp(1.5rem, 2.4vw, 2.1rem); font-weight: 600; color: var(--navy-text); line-height: 1.1; }
+.tech-stats dd { margin: 4px 0 0; font-size: 0.875rem; color: var(--text-soft); }
 
 /* ---------- Stats ---------- */
 .brighten-grid {
@@ -426,9 +417,8 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
-  .tech-grid { grid-template-columns: 1fr; gap: clamp(16px, 3svh, 32px); }
-  .tech-media-stack { width: min(100%, calc(32svh * 570 / 530)); justify-self: center; }
-  .tech-window { height: calc(var(--item-h) * 3); }
+  .tech-panel { grid-template-columns: 1fr; gap: 20px; align-items: start; }
+  .tech-media { aspect-ratio: auto; height: 30svh; max-height: none; }
   .brighten-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; gap: 12px; }
   .brighten-media { grid-column: 1 / -1; grid-row: auto; min-height: 0; height: 30svh; }
   .stat { min-height: min(180px, 18svh); }
@@ -473,8 +463,16 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 }
 
 @media (max-width: 600px) {
-  .tech-panel { --item-h: clamp(52px, 8svh, 72px); }
-  .tech-list h3 { font-size: 1.3rem; }
+  /* pills sit in one row you can swipe, with a soft fade hinting at more */
+  .tech-tabs {
+    flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none;
+    margin-inline: -16px; padding-inline: 16px;
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+  .tech-tabs::-webkit-scrollbar { display: none; }
+  .tech-tab { flex-shrink: 0; padding: 0 18px; }
+  .tech-copy h3 { font-size: 1.35rem; }
+  .tech-stats { margin: 14px 0; }
   .stat { min-height: min(150px, 15svh); padding: 14px 16px; font-size: 1.1rem; }
   .book-inner { padding-inline: 0; }
   .book-form { grid-template-columns: 1fr; gap: 16px; }
