@@ -21,7 +21,7 @@
   --container: 1280px;
   --radius: 4px;
   --header-h: 88px;
-  --nav-bg: rgba(238, 240, 248, 0.88);
+  --nav-bg: rgba(238, 240, 248, 0.95);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --dur-fast: 180ms;
@@ -71,14 +71,19 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   pointer-events: none;
 }
 .site-header > * { pointer-events: auto; }
+/* The logo sits in its own frosted pill matching the menu, so both stay
+   readable over any section that scrolls underneath */
 .logo {
   display: inline-flex; align-items: center; gap: 10px;
-  font-size: 1.3rem; font-weight: 600; letter-spacing: -0.01em;
+  min-height: 52px; padding: 0 18px 0 14px; border-radius: 8px;
+  font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em;
   color: var(--navy); text-decoration: none;
-  transition: color var(--dur) ease;
+  background: var(--nav-bg);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
 }
 .logo-mark { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
-.site-header.on-dark .logo { color: var(--white); }
 
 .nav-pill {
   position: relative;
@@ -371,6 +376,8 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   .nav-links.open { opacity: 1; transform: none; visibility: visible; pointer-events: auto; transition-delay: 0s; }
   .nav-links a { min-height: 44px; }
   .nav-links a, .nav-cta, .nav-menu-btn { padding: 0 14px; }
+  .logo { min-height: 50px; padding: 0 14px 0 12px; font-size: 1.05rem; gap: 8px; }
+  .logo-mark { width: 22px; height: 22px; }
   .hide-sm { display: none; }
 }
 
