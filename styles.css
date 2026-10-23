@@ -199,13 +199,18 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 
 /* ---------- Mission ---------- */
 .mission { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.mission-title { max-width: 38ch; font-size: clamp(1.5rem, 3vw, 2.6rem); color: var(--ink); margin-bottom: clamp(20px, 4svh, 40px); }
+/* larger heading, growing a little more on big screens */
+.mission-title { max-width: 36ch; font-size: clamp(1.6rem, 2.2vw + 0.9rem, 3.25rem); color: var(--ink); margin-bottom: clamp(20px, 4svh, 40px); }
 /* The track is taller than the screen; the About screen inside it stays pinned
    while you scroll through the extra height, and script.js grows the photo
    from the frame's size to the full screen. */
 .mission-track { position: relative; height: 220vh; height: 220svh; background: var(--white); }
-.mission.screen { position: sticky; top: 0; height: 100vh; height: 100svh; }
-.mission-frame { width: min(560px, 100%, calc(42svh * 560 / 390)); aspect-ratio: 560 / 390; margin-bottom: clamp(20px, 4svh, 40px); }
+/* bottom padding matches the space under the services photo box */
+.mission.screen { position: sticky; top: 0; height: 100vh; height: 100svh; padding-bottom: var(--svc-bottom); }
+/* the photo frame takes all the height left between the heading and the
+   button, keeping the photo's shape (wider than the page on phones, so it
+   becomes a taller crop there) */
+.mission-frame { flex: 1 1 0; min-height: 180px; width: auto; max-width: 100%; aspect-ratio: 1500 / 841; margin-bottom: clamp(20px, 4svh, 40px); }
 .mission-media {
   position: absolute; z-index: 2; margin: 0;
   /* starting box; script.js keeps it matched to .mission-frame */
