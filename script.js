@@ -73,7 +73,8 @@ const lerp = (a, b, t) => a + (b - a) * t;
 
 function updateMission() {
   const vh = window.innerHeight;
-  const travel = missionTrack.offsetHeight - vh;
+  // the pinned screen stops at the white gap at the bottom of the track
+  const travel = missionTrack.offsetHeight - parseFloat(getComputedStyle(missionTrack).paddingBottom) - vh;
   const scrolled = -missionTrack.getBoundingClientRect().top;
   // fully grown at 80% of the way through, then held briefly before moving on
   const t = ease(Math.min(1, Math.max(0, scrolled / (travel * 0.8))));

@@ -195,7 +195,14 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* The track is taller than the screen; the About screen inside it stays pinned
    while you scroll through the extra height, and script.js grows the photo
    from the frame's size to the full screen. */
-.mission-track { position: relative; height: 220vh; height: 220svh; }
+/* --section-gap matches the space between other sections (twice a section's
+   own padding), and leaves a white gap after the full-screen photo */
+.mission-track {
+  --section-gap: clamp(64px, 12svh, 144px);
+  position: relative; background: var(--white);
+  height: calc(220vh + var(--section-gap)); height: calc(220svh + var(--section-gap));
+  padding-bottom: var(--section-gap);
+}
 .mission.screen { position: sticky; top: 0; height: 100vh; height: 100svh; }
 .mission-frame { width: min(560px, 100%, calc(42svh * 560 / 390)); aspect-ratio: 560 / 390; margin-bottom: clamp(20px, 4svh, 40px); }
 .mission-media {
