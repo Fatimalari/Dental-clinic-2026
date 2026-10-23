@@ -137,16 +137,9 @@ menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expan
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 document.addEventListener('click', (e) => { if (!header.contains(e.target)) setMenu(false); });
 
-// Pinned sections report their stuck position, so measure where each one
-// starts in the page by adding up the heights of the sections before it
-const sectionStart = (target) => {
-  let y = 0;
-  for (const section of sections) {
-    if (section === target) return y;
-    y += section.offsetHeight;
-  }
-  return y;
-};
+// Where a section starts in the page. Only the hero pins (sticky), and it is
+// always at the top; every other section reports its normal position.
+const sectionStart = (target) => (target === sections[0] ? 0 : target.offsetTop);
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   const href = link.getAttribute('href');
   if (href.length < 2) return;
@@ -245,7 +238,8 @@ if (techTrack && !reduceMotion) {
 
   let techTicking = false;
   const updateTech = () => {
-    const travel = techTrack.offsetHeight - window.innerHeight;
+    // the pinned screen is shorter than the window, so measure against it
+    const travel = techTrack.offsetHeight - techTrack.querySelector('.tech.screen').offsetHeight;
     const progress = Math.min(1, Math.max(0, -techTrack.getBoundingClientRect().top / travel));
     const raw = progress * steps;
     const step = Math.min(steps, Math.floor(raw));

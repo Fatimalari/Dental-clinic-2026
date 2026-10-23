@@ -21,6 +21,10 @@
   --container: 1280px;
   --radius: 4px;
   --header-h: 88px;
+  /* one gap used between every pair of sections; never smaller than the
+     floating nav plus breathing room, since sections pin at the top */
+  --section-gap: max(clamp(64px, 12svh, 144px), calc(var(--header-h) + 16px));
+  --section-top: var(--section-gap);
   --nav-bg: rgba(238, 240, 248, 0.95);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -131,15 +135,14 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .media img { width: 100%; height: 100%; object-fit: cover; }
 .media img.missing { visibility: hidden; }
 
-/* ---------- Full-screen sections ---------- */
-/* Every section fills one screen, and its content is sized to the screen
-   height so the whole section is visible at once, even on short laptops. */
+/* ---------- Sections ---------- */
+/* The hero fills the first screen. Every later section starts one
+   --section-gap below the content of the one before it, so the spacing is
+   the same between all sections; each one still fits on a single screen. */
 .screen {
   position: relative;
-  min-height: 100vh; min-height: 100svh;
-  display: flex; flex-direction: column; justify-content: center;
-  padding-block: clamp(32px, 6svh, 72px);
-  padding-top: max(var(--header-h), clamp(32px, 6svh, 72px));
+  display: flex; flex-direction: column;
+  padding: var(--section-top) 0 0;
   background: var(--white);
   /* paint the white background edge to edge, not just inside the container */
   border-image: conic-gradient(var(--white) 0 0) fill 0 // 0 100vmax;
@@ -153,7 +156,11 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* ---------- Hero ---------- */
 .hero {
   display: flex; flex-direction: column; align-items: center; text-align: center;
-  padding: 0;
+}
+/* the hero alone fills the whole first screen */
+.hero.screen {
+  min-height: 100vh; min-height: 100svh; justify-content: center;
+  padding: var(--header-h) 0 clamp(32px, 6svh, 72px);
 }
 .tag {
   padding: 5px 12px; border: 1px solid var(--tag-border); border-radius: 3px; background: var(--tag-bg);
@@ -195,10 +202,8 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* The track is taller than the screen; the About screen inside it stays pinned
    while you scroll through the extra height, and script.js grows the photo
    from the frame's size to the full screen. */
-/* --section-gap matches the space between other sections (twice a section's
-   own padding), and leaves a white gap after the full-screen photo */
+/* the track ends with one --section-gap of white after the full-screen photo */
 .mission-track {
-  --section-gap: clamp(64px, 12svh, 144px);
   position: relative; background: var(--white);
   height: calc(220vh + var(--section-gap)); height: calc(220svh + var(--section-gap));
   padding-bottom: var(--section-gap);
@@ -233,7 +238,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* ---------- Services ---------- */
 /* Tall scroll track; the screen inside stays pinned while script.js opens one
    service at a time and slides each photo up over the previous one. */
-.services-track { position: relative; height: 450vh; height: 450svh; }
+.services-track { position: relative; height: 450vh; height: 450svh; background: var(--white); }
 .services.screen {
   position: sticky; top: 0; height: 100vh; height: 100svh;
   display: grid; grid-template-columns: 1fr 1fr; padding: 0;
@@ -288,10 +293,13 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* ---------- Technology ---------- */
 /* The track is taller than the screen; the Technology screen inside it stays
    pinned while script.js moves the list up one item at a time. */
-.tech-track { position: relative; height: 320vh; height: 320svh; }
-.tech.screen { position: sticky; top: 0; height: 100vh; height: 100svh; }
+/* solid white so the pinned hero never shows below the shorter pinned screen */
+.tech-track { position: relative; height: 320vh; height: 320svh; background: var(--white); }
+/* the pinned screen is only as tall as its content, so the next section
+   follows one --section-gap after it */
+.tech.screen { position: sticky; top: 0; }
 .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
-.tech-media-stack { position: relative; aspect-ratio: 570 / 530; width: min(100%, calc(60svh * 570 / 530)); }
+.tech-media-stack { position: relative; overflow: hidden; aspect-ratio: 570 / 530; width: min(100%, calc(60svh * 570 / 530)); }
 .tech-media {
   position: absolute; inset: 0;
   opacity: 0; scale: 1.04;
@@ -344,7 +352,14 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .brighten-media img { position: absolute; inset: 0; }
 
 /* ---------- Booking ---------- */
-.book.screen { background: var(--navy); border-image: none; text-align: center; }
+/* the navy block starts one --section-gap below the results (that gap is
+   white padding at the bottom of the results section) */
+.brighten.screen { padding-bottom: var(--section-gap); }
+.book.screen {
+  min-height: 100vh; min-height: 100svh; justify-content: center;
+  padding: clamp(48px, 8svh, 96px) 0;
+  background: var(--navy); border-image: none; text-align: center;
+}
 .book-inner { padding-inline: 24px; }
 .book h2 { color: var(--white); font-size: clamp(1.8rem, 3.6vw, 3rem); max-width: 22ch; margin: 0 auto clamp(24px, 4svh, 44px); }
 .book-form {
@@ -435,7 +450,6 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 }
 
 @media (max-width: 600px) {
-  .screen { padding-block: 40px; padding-top: var(--header-h); }
   .tech-panel { --item-h: clamp(52px, 8svh, 72px); }
   .tech-list h3 { font-size: 1.3rem; }
   .stat { min-height: min(150px, 15svh); padding: 14px 16px; font-size: 1.1rem; }
