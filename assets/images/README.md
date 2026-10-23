@@ -10,3 +10,4 @@ Add the photos here with these exact names. Until a file exists, a grey box show
 | `service-1.jpg` … `service-6.jpg` | Services: one photo per service (Consultation, General, Restorative, Surgical, Orthodontic, Cosmetic), portrait works best, slides up as each service opens |
 | `technology-1.webp` ✓ added | 3D Scanning tab: intraoral scanner (cropped to 4:3 around the scanner) |
 | `technology-2.webp` ✓ added | Smile Preview tab: dentist showing a patient a 3D teeth model (cropped to 4:3) |
+| `technology-3.webp` ✓ added | Same-day Crowns tab: technician finishing a ceramic crown (cropped to 4:3) |
