@@ -66,7 +66,7 @@ const missionTrack = document.querySelector('.mission-track');
 const missionScreen = missionTrack.querySelector('.mission');
 const missionFrame = missionTrack.querySelector('.mission-frame');
 const missionMedia = missionTrack.querySelector('.mission-media');
-const missionFade = [...missionScreen.querySelectorAll('.mission-title, .mission-text, .btn')];
+const missionFade = [...missionScreen.querySelectorAll('.mission-title, .btn')];
 const teamLabels = [...missionMedia.querySelectorAll('.team-labels li')];
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const lerp = (a, b, t) => a + (b - a) * t;
