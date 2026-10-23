@@ -1,4 +1,5 @@
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduceMotion) document.documentElement.classList.add('reduce');
 document.documentElement.classList.add('js');
 
 // Grey placeholder stays visible until real photos are added to assets/images
@@ -184,12 +185,56 @@ if (heroVideo && videoToggle) {
   if (reduceMotion) { heroVideo.removeAttribute('autoplay'); setPaused(true); }
 }
 
+// Services: while the pinned screen is held, open one service at a time and
+// slide each photo up over the previous one, in step with the list
+const svcTrack = document.querySelector('.services-track');
+if (svcTrack) {
+  const svcItems = [...svcTrack.querySelectorAll('.svc-item')];
+  const svcImages = [...svcTrack.querySelectorAll('.svc-media')];
+  const svcSteps = svcItems.length - 1;
+  const svcDwell = (f) => { const x = Math.min(1, Math.max(0, (f - 0.25) / 0.5)); return x * x * (3 - 2 * x); };
+  const svcTravel = () => svcTrack.offsetHeight - window.innerHeight;
+
+  // clicking a service title scrolls to the point where it is open
+  svcItems.forEach((item, i) => {
+    item.querySelector('.svc-title').addEventListener('click', () => {
+      if (reduceMotion) return;
+      const top = sectionStart(svcTrack) + svcTravel() * (i / svcSteps) + 1;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  if (!reduceMotion) {
+    let svcTicking = false;
+    const updateServices = () => {
+      const progress = Math.min(1, Math.max(0, -svcTrack.getBoundingClientRect().top / svcTravel()));
+      const raw = progress * svcSteps;
+      const step = Math.min(svcSteps, Math.floor(raw));
+      const pos = step + (step < svcSteps ? svcDwell(raw - step) : 0);
+      const active = Math.round(pos);
+      svcItems.forEach((item, i) => item.classList.toggle('is-active', i === active));
+      svcImages.forEach((fig, i) => {
+        // photo i slides up from the bottom as the list moves from i-1 to i
+        const shown = i === 0 ? 1 : Math.min(1, Math.max(0, pos - (i - 1)));
+        fig.style.clipPath = `inset(${((1 - shown) * 100).toFixed(2)}% 0 0 0)`;
+        fig.classList.toggle('is-active', i === active);
+      });
+      svcTicking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (svcTicking) return;
+      svcTicking = true;
+      requestAnimationFrame(updateServices);
+    }, { passive: true });
+    window.addEventListener('resize', updateServices);
+    updateServices();
+  }
+}
+
 // Technology: while the pinned screen is held, move the list up one item at a
 // time; the item at the top is the active one and the image swaps to match
 const techTrack = document.querySelector('.tech-track');
-if (techTrack && reduceMotion) {
-  document.documentElement.classList.add('reduce');
-} else if (techTrack) {
+if (techTrack && !reduceMotion) {
   const techItems = [...techTrack.querySelectorAll('.tech-list li')];
   const techList = techTrack.querySelector('.tech-list');
   const techImages = [...techTrack.querySelectorAll('.tech-media')];
