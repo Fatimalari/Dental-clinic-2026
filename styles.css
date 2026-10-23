@@ -25,6 +25,7 @@
      floating nav plus breathing room, since sections pin at the top */
   --section-gap: max(clamp(64px, 12svh, 144px), calc(var(--header-h) + 16px));
   --section-top: var(--section-gap);
+  --svc-bottom: clamp(24px, 4svh, 48px);
   --nav-bg: rgba(238, 240, 248, 0.95);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -202,12 +203,7 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* The track is taller than the screen; the About screen inside it stays pinned
    while you scroll through the extra height, and script.js grows the photo
    from the frame's size to the full screen. */
-/* the track ends with one --section-gap of white after the full-screen photo */
-.mission-track {
-  position: relative; background: var(--white);
-  height: calc(220vh + var(--section-gap)); height: calc(220svh + var(--section-gap));
-  padding-bottom: var(--section-gap);
-}
+.mission-track { position: relative; height: 220vh; height: 220svh; background: var(--white); }
 .mission.screen { position: sticky; top: 0; height: 100vh; height: 100svh; }
 .mission-frame { width: min(560px, 100%, calc(42svh * 560 / 390)); aspect-ratio: 560 / 390; margin-bottom: clamp(20px, 4svh, 40px); }
 .mission-media {
@@ -238,18 +234,24 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 /* ---------- Services ---------- */
 /* Tall scroll track; the screen inside stays pinned while script.js opens one
    service at a time and slides each photo up over the previous one. */
-.services-track { position: relative; height: 450vh; height: 450svh; background: var(--white); }
+/* --svc-bottom: space kept below the photo box while pinned; the next section
+   is pulled up by the same amount so the gap after Services matches the rest */
+.services-track {
+  position: relative; height: 450vh; height: 450svh; background: var(--white);
+}
+.services-track + .tech-track { margin-top: calc(-1 * var(--svc-bottom)); }
+/* centred heading like the other sections, then the list (left) and a framed
+   photo (right) within the page margins */
 .services.screen {
   position: sticky; top: 0; height: 100vh; height: 100svh;
-  display: grid; grid-template-columns: 1fr 1fr; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr; padding: 0;
 }
+/* the heading row carries the one shared gap above the section */
+.svc-heading-row { grid-column: 1 / -1; padding-top: var(--section-top); }
+.svc-heading-row .section-title { margin-bottom: clamp(16px, 3svh, 32px); }
 .svc-copy {
   display: flex; flex-direction: column; justify-content: center;
-  padding: var(--header-h) clamp(24px, 4vw, 64px) clamp(24px, 4svh, 48px) max(16px, calc((100vw - var(--container)) / 2));
-}
-.svc-heading {
-  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--text-soft); margin-bottom: clamp(16px, 3svh, 28px);
+  padding: 0 clamp(24px, 4vw, 64px) clamp(24px, 4svh, 48px) max(16px, calc((100vw - var(--container)) / 2));
 }
 .svc-list { list-style: none; margin: 0; padding: 0; }
 .svc-title {
@@ -271,7 +273,10 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 .svc-body ul li { font-size: 0.875rem; color: var(--text); padding-left: 16px; position: relative; }
 .svc-body ul li::before { content: "·"; position: absolute; left: 4px; color: var(--navy-text); font-weight: 600; }
 
-.svc-media-stack { position: relative; overflow: hidden; }
+.svc-media-stack {
+  position: relative; overflow: hidden;
+  margin: 0 max(16px, calc((100vw - var(--container)) / 2)) var(--svc-bottom) 0;
+}
 .svc-media {
   position: absolute; inset: 0; margin: 0; background: var(--tint, var(--placeholder));
   clip-path: inset(100% 0 0 0);
@@ -419,15 +424,22 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 }
 
 @media (max-width: 860px) {
-  .services.screen { grid-template-columns: 1fr; grid-template-rows: 36svh 1fr; }
-  .svc-media-stack { grid-row: 1; }
-  .svc-copy { grid-row: 2; justify-content: flex-start; padding: clamp(14px, 2.5svh, 24px) 16px 16px; }
-  .svc-heading { margin-bottom: 8px; }
+  .services.screen { grid-template-columns: 1fr; grid-template-rows: auto 30svh 1fr; }
+  .svc-heading-row { grid-row: 1; }
+  .svc-heading-row .section-title { margin-bottom: 12px; }
+  .svc-media-stack { grid-row: 2; margin: 0 16px; }
+  .svc-copy { grid-row: 3; justify-content: flex-start; padding: clamp(14px, 2.5svh, 24px) 16px 16px; }
   .svc-title { font-size: 1.05rem; padding: 5px 0; gap: 12px; }
   .svc-body > div { padding-left: calc(2.4 * 0.6 * 1.05rem + 12px); }
   .svc-body p { font-size: 0.875rem; line-height: 1.5; margin: 4px 0 8px; }
   .svc-body ul { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 8px; }
   .svc-body ul li { font-size: 0.8125rem; }
+}
+
+/* short phones (e.g. iPhone SE): a shorter photo box so the whole list fits */
+@media (max-width: 860px) and (max-height: 720px) {
+  .services.screen { grid-template-rows: auto 20svh 1fr; }
+  .svc-copy { padding-top: 10px; }
 }
 
 @media (max-width: 760px) {
