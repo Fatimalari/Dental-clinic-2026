@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=16">
+  <link rel="stylesheet" href="styles.css?v=17">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -59,10 +59,24 @@
   <main id="main">
     <!-- Hero -->
     <section class="hero screen container" id="top">
+      <!-- Background video with a navy overlay; white text on top measures at
+           least 5:1 contrast against the brightest frames (WCAG AA) -->
+      <div class="hero-video" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="auto" poster="assets/video/hero-poster.jpg">
+          <source src="assets/video/hero-mobile.webm" type="video/webm" media="(max-width: 760px)">
+          <source src="assets/video/hero-mobile.mp4" type="video/mp4" media="(max-width: 760px)">
+          <source src="assets/video/hero.webm" type="video/webm">
+          <source src="assets/video/hero.mp4" type="video/mp4">
+        </video>
+      </div>
       <p class="tag" data-reveal>Egyetem Sugarut, Debrecen</p>
       <h1 data-reveal>Experienced in the art of caring dentistry</h1>
       <p class="hero-text" data-reveal>Our clinic combines modern dental care with compassionate attention, helping you maintain a healthy, confident, and beautiful smile.</p>
-      <a class="btn btn-navy" href="#book" data-reveal>Book appointment</a>
+      <a class="btn btn-white" href="#book" data-reveal>Book appointment</a>
+      <button class="video-toggle" type="button" aria-label="Pause background video">
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="6" width="3.2" height="12" rx="1"/><rect x="13.8" y="6" width="3.2" height="12" rx="1"/></svg>
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+      </button>
     </section>
 
     <!-- Mission -->
@@ -196,6 +210,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=16"></script>
+  <script src="script.js?v=17"></script>
 </body>
 </html>

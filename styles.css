@@ -160,6 +160,30 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
 }
 .hero-text { max-width: 30rem; font-size: 1rem; color: var(--text); margin-bottom: 36px; }
 
+/* Hero video: full-bleed behind the content, with a navy overlay so the
+   white text stays WCAG AA readable (measured >= 5:1 on the brightest frames) */
+.hero-video {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 100vw; translate: -50% 0;
+  z-index: 0; overflow: hidden; background: var(--navy);
+}
+.hero-video video { width: 100%; height: 100%; object-fit: cover; object-position: 60% center; display: block; }
+.hero-video::after { content: ""; position: absolute; inset: 0; background: rgba(11, 22, 80, 0.62); }
+.hero > :not(.hero-video) { position: relative; z-index: 1; }
+.hero .tag { background: rgba(255, 255, 255, 0.12); border-color: rgba(255, 255, 255, 0.5); color: var(--white); }
+.hero h1, .hero .hero-text { color: var(--white); }
+
+.video-toggle {
+  position: absolute !important; right: 0; bottom: clamp(20px, 4svh, 40px);
+  width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.5); color: var(--white);
+  transition: background-color var(--dur-fast) ease;
+}
+.video-toggle:hover { background: rgba(255, 255, 255, 0.24); }
+.video-toggle svg { width: 18px; height: 18px; fill: currentColor; }
+.video-toggle .i-play, .video-toggle.paused .i-pause { display: none; }
+.video-toggle.paused .i-play { display: block; }
+
 /* ---------- Mission ---------- */
 .mission { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .mission-title { max-width: 38ch; font-size: clamp(1.5rem, 3vw, 2.6rem); color: var(--ink); margin-bottom: clamp(20px, 4svh, 40px); }

@@ -164,12 +164,25 @@ function updateHeader() {
   // the section drawn under the header is the last one whose top has reached it
   let current = sections[0];
   sections.forEach((section) => { if (section.getBoundingClientRect().top <= probe) current = section; });
-  header.classList.toggle('on-dark', current.classList.contains('book'));
+  header.classList.toggle('on-dark', current.classList.contains('book') || current.classList.contains('hero'));
   navAnchors.forEach((a) => a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + current.id)));
 }
 window.addEventListener('scroll', updateHeader, { passive: true });
 window.addEventListener('resize', updateHeader);
 updateHeader();
+
+// Hero video: pause/play button; start paused for visitors who ask for less motion
+const heroVideo = document.querySelector('.hero-video video');
+const videoToggle = document.querySelector('.video-toggle');
+if (heroVideo && videoToggle) {
+  const setPaused = (paused) => {
+    if (paused) heroVideo.pause(); else heroVideo.play().catch(() => {});
+    videoToggle.classList.toggle('paused', paused);
+    videoToggle.setAttribute('aria-label', paused ? 'Play background video' : 'Pause background video');
+  };
+  videoToggle.addEventListener('click', () => setPaused(!heroVideo.paused));
+  if (reduceMotion) { heroVideo.removeAttribute('autoplay'); setPaused(true); }
+}
 
 // Technology: while the pinned screen is held, move the list up one item at a
 // time; the item at the top is the active one and the image swaps to match
