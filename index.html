@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=15">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -75,6 +75,14 @@
         <a class="btn btn-outline" href="#" data-reveal>Know us better</a>
         <figure class="media mission-media">
           <img src="assets/images/team.webp" alt="The Smileyce dental team" width="1500" height="841" loading="lazy">
+          <!-- Doctor names appear once the photo fills the screen.
+               data-x / data-y = where the label sits on the photo (0 to 1).
+               PLACEHOLDER names and roles: replace with the real ones. -->
+          <ul class="team-labels">
+            <li data-x="0.27" data-y="0.8"><strong>Dr. Eszter Nagy</strong><span>Cosmetic Dentist</span></li>
+            <li data-x="0.505" data-y="0.8"><strong>Dr. Lena Horváth</strong><span>Orthodontist</span></li>
+            <li data-x="0.77" data-y="0.8"><strong>Dr. Máté Kiss</strong><span>Endodontist</span></li>
+          </ul>
         </figure>
       </div>
     </section>
@@ -168,6 +176,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=14"></script>
+  <script src="script.js?v=15"></script>
 </body>
 </html>

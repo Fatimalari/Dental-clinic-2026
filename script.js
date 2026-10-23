@@ -66,6 +66,7 @@ const missionScreen = missionTrack.querySelector('.mission');
 const missionFrame = missionTrack.querySelector('.mission-frame');
 const missionMedia = missionTrack.querySelector('.mission-media');
 const missionFade = [...missionScreen.querySelectorAll('.mission-title, .btn')];
+const teamLabels = [...missionMedia.querySelectorAll('.team-labels li')];
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const lerp = (a, b, t) => a + (b - a) * t;
 
@@ -89,6 +90,25 @@ function updateMission() {
   missionMedia.style.setProperty('--m-width', lerp(start.width, end.width, p) + 'px');
   missionMedia.style.setProperty('--m-height', lerp(start.height, end.height, p) + 'px');
   missionFade.forEach((el) => { el.style.opacity = p > 0 ? String(Math.max(0, 1 - p * 2.5)) : ''; });
+
+  // names appear once the photo fills the screen; each label is pinned to its
+  // spot on the photo, following the same cover-crop the image uses
+  const w = lerp(start.width, end.width, p);
+  const h = lerp(start.height, end.height, p);
+  const img = missionMedia.querySelector('img');
+  const ratio = (img.naturalWidth && img.naturalHeight) ? img.naturalWidth / img.naturalHeight : 1500 / 841;
+  const scale = Math.max(w / ratio, h);
+  const rw = scale * ratio;
+  const rh = scale;
+  teamLabels.forEach((label) => {
+    const x = Number(label.dataset.x) * rw - (rw - w) / 2;
+    const y = Number(label.dataset.y) * rh - (rh - h) / 2;
+    label.style.left = x + 'px';
+    label.style.top = y + 'px';
+    // hide a name whose person is cropped off the edge (e.g. on phones)
+    label.classList.toggle('off', x < 60 || x > w - 60);
+  });
+  missionMedia.classList.toggle('full', t >= 0.98);
 }
 let missionTicking = false;
 const onMissionScroll = () => {
