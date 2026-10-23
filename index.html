@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=15">
+  <link rel="stylesheet" href="styles.css?v=16">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -110,19 +110,39 @@
     </section>
 
     <!-- Technology -->
-    <section class="tech screen container" id="technology" aria-labelledby="tech-title">
-      <h2 class="section-title" id="tech-title" data-reveal>Advanced system for <br>clinical precision</h2>
-      <div class="tech-grid">
-        <figure class="media tech-media" data-reveal="zoom">
-          <img src="assets/images/technology.jpg" alt="Digital smile design software showing a 3D model of teeth" width="1140" height="1060" loading="lazy">
-        </figure>
-        <ul class="tech-list" data-reveal>
-          <li><button type="button" aria-pressed="false">Technology 1</button></li>
-          <li><button type="button" aria-pressed="true">Technology 2</button></li>
-          <li><button type="button" aria-pressed="false">Technology 3</button></li>
-          <li><button type="button" aria-pressed="false">Technology 4</button></li>
-          <span class="tech-indicator" aria-hidden="true"></span>
-        </ul>
+    <!-- Tall scroll track: the Technology screen stays pinned while the list
+         scrolls up one item at a time and the image swaps to match.
+         PLACEHOLDER names: replace "Technology 1-4" with the real ones. -->
+    <section class="tech-track" id="technology" aria-labelledby="tech-title">
+      <div class="tech screen container">
+        <h2 class="section-title" id="tech-title">Advanced system for <br>clinical precision</h2>
+        <div class="tech-grid">
+          <div class="tech-media-stack">
+          <figure class="media tech-media is-active" data-label="Technology 1 image">
+            <img src="assets/images/technology-1.jpg" alt="Digital smile design software showing a 3D model of teeth" width="1140" height="1060" loading="lazy">
+          </figure>
+          <figure class="media tech-media" data-label="Technology 2 image">
+            <img src="assets/images/technology-2.jpg" alt="Technology 2" width="1140" height="1060" loading="lazy">
+          </figure>
+          <figure class="media tech-media" data-label="Technology 3 image">
+            <img src="assets/images/technology-3.jpg" alt="Technology 3" width="1140" height="1060" loading="lazy">
+          </figure>
+          <figure class="media tech-media" data-label="Technology 4 image">
+            <img src="assets/images/technology-4.jpg" alt="Technology 4" width="1140" height="1060" loading="lazy">
+          </figure>
+          </div>
+          <div class="tech-panel">
+            <p class="tech-eyebrow">Technology</p>
+            <div class="tech-window">
+              <ol class="tech-list">
+              <li><h3>Technology 1</h3><a class="tech-more" href="#">Learn more</a></li>
+              <li><h3>Technology 2</h3><a class="tech-more" href="#">Learn more</a></li>
+              <li><h3>Technology 3</h3><a class="tech-more" href="#">Learn more</a></li>
+              <li><h3>Technology 4</h3><a class="tech-more" href="#">Learn more</a></li>
+              </ol>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -176,6 +196,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=15"></script>
+  <script src="script.js?v=16"></script>
 </body>
 </html>

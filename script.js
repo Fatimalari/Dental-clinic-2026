@@ -171,28 +171,46 @@ window.addEventListener('scroll', updateHeader, { passive: true });
 window.addEventListener('resize', updateHeader);
 updateHeader();
 
-// Technology list: underline slides to the hovered / selected item
-const techList = document.querySelector('.tech-list');
-if (techList) {
-  const buttons = [...techList.querySelectorAll('button')];
-  const indicator = techList.querySelector('.tech-indicator');
-  const moveTo = (btn) => {
-    const li = btn.parentElement;
-    indicator.style.transform = `translateY(${li.offsetTop + li.offsetHeight - 1}px)`;
-  };
-  const active = () => buttons.find((b) => b.getAttribute('aria-pressed') === 'true') || buttons[0];
+// Technology: while the pinned screen is held, move the list up one item at a
+// time; the item at the top is the active one and the image swaps to match
+const techTrack = document.querySelector('.tech-track');
+if (techTrack && reduceMotion) {
+  document.documentElement.classList.add('reduce');
+} else if (techTrack) {
+  const techItems = [...techTrack.querySelectorAll('.tech-list li')];
+  const techList = techTrack.querySelector('.tech-list');
+  const techImages = [...techTrack.querySelectorAll('.tech-media')];
+  const steps = techItems.length - 1;
+  // each item rests for a moment before the next one slides up
+  const dwell = (f) => { const x = Math.min(1, Math.max(0, (f - 0.3) / 0.4)); return x * x * (3 - 2 * x); };
 
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-      moveTo(btn);
+  let techTicking = false;
+  const updateTech = () => {
+    const travel = techTrack.offsetHeight - window.innerHeight;
+    const progress = Math.min(1, Math.max(0, -techTrack.getBoundingClientRect().top / travel));
+    const raw = progress * steps;
+    const step = Math.min(steps, Math.floor(raw));
+    const pos = step + (step < steps ? dwell(raw - step) : 0);
+    const itemH = techItems[0].offsetHeight;
+
+    techList.style.transform = `translateY(${-pos * itemH}px)`;
+    techItems.forEach((item, i) => {
+      const d = i - pos;
+      // items above the top fade away; the active one is solid; the rest wait, faded
+      const opacity = d < 0 ? Math.max(0, 1 + d * 1.6) : 1 - Math.min(1, d) * 0.65;
+      item.style.opacity = opacity.toFixed(3);
     });
-    btn.addEventListener('mouseenter', () => moveTo(btn));
-    btn.addEventListener('focus', () => moveTo(btn));
-  });
-  techList.addEventListener('mouseleave', () => moveTo(active()));
-  window.addEventListener('resize', () => moveTo(active()));
-  moveTo(active());
+    const active = Math.round(pos);
+    techImages.forEach((img, i) => img.classList.toggle('is-active', i === active));
+    techTicking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (techTicking) return;
+    techTicking = true;
+    requestAnimationFrame(updateTech);
+  }, { passive: true });
+  window.addEventListener('resize', updateTech);
+  updateTech();
 }
 
 // Booking form: client-side validation only. Connect it to a form service
