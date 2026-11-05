@@ -76,40 +76,37 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   pointer-events: none;
 }
 .site-header > * { pointer-events: auto; }
-/* The logo sits in its own frosted pill matching the menu, so both stay
-   readable over any section that scrolls underneath */
+/* Simple nav with no background: navy text and a navy button over light
+   sections; over dark ones (hero video, navy booking block) script.js adds
+   .on-dark and everything turns white, with a white button. */
+.site-header { --nav-fg: var(--navy); --cta-bg: var(--navy); --cta-fg: var(--white); }
+.site-header.on-dark { --nav-fg: var(--white); --cta-bg: var(--white); --cta-fg: var(--navy); }
 .logo {
-  display: inline-flex; align-items: center; gap: 10px;
-  min-height: 52px; padding: 0 18px 0 14px; border-radius: 8px;
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px;
   font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em;
-  color: var(--navy); text-decoration: none;
-  background: var(--nav-bg);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(14px) saturate(1.4);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  color: var(--nav-fg); text-decoration: none;
+  transition: color var(--dur) ease;
 }
 .logo-mark { width: 26px; height: 26px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
 
-.nav-pill {
-  position: relative;
-  display: flex; align-items: center; gap: 2px;
-  padding: 5px; border-radius: 8px;
-  background: var(--nav-bg);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(14px) saturate(1.4);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-}
-.nav-links { display: flex; align-items: center; gap: 2px; }
+.nav-pill { position: relative; display: flex; align-items: center; gap: 4px; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
 .nav-links a, .nav-cta, .nav-menu-btn {
-  display: inline-flex; align-items: center; min-height: 40px; padding: 0 18px; border-radius: 5px;
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 5px;
   font: 500 0.75rem/1 var(--font); letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
-  transition: background-color var(--dur-fast) ease, color var(--dur-fast) ease;
+  transition: background-color var(--dur) ease, color var(--dur) ease, opacity var(--dur-fast) ease;
 }
-.nav-links a { color: #1d2333; }
-.nav-links a:hover, .nav-links a[aria-current="true"] { background: rgba(11, 22, 80, 0.07); color: var(--navy); }
-.nav-cta { background: var(--navy); color: var(--white); margin-left: 4px; white-space: nowrap; }
-.nav-cta:hover { background: var(--navy-hover); }
-.nav-menu-btn { display: none; border: 0; background: none; color: #1d2333; cursor: pointer; }
+.nav-links a { position: relative; color: var(--nav-fg); }
+/* hover and current section: a thin underline instead of a background */
+.nav-links a::after {
+  content: ""; position: absolute; left: 16px; right: 16px; bottom: 10px; height: 1.5px;
+  background: currentColor; transform: scaleX(0); transform-origin: left;
+  transition: transform var(--dur) var(--ease-out);
+}
+.nav-links a:hover::after, .nav-links a[aria-current="true"]::after { transform: scaleX(1); }
+.nav-cta { background: var(--cta-bg); color: var(--cta-fg); margin-left: 12px; white-space: nowrap; }
+.nav-cta:hover { opacity: 0.9; }
+.nav-menu-btn { display: none; border: 0; background: none; color: var(--nav-fg); cursor: pointer; }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -457,15 +454,15 @@ h1, h2, h3 { font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
   .nav-links {
     position: absolute; top: calc(100% + 8px); right: 0; min-width: 200px;
     flex-direction: column; align-items: stretch; padding: 6px; border-radius: 8px;
-    background: var(--nav-bg); border: 1px solid rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    background: var(--white); box-shadow: 0 16px 32px -16px rgba(11, 22, 80, 0.35);
     opacity: 0; transform: translateY(-6px); visibility: hidden; pointer-events: none;
     transition: opacity var(--dur) var(--ease-out), transform var(--dur) var(--ease-out), visibility 0s linear var(--dur);
   }
   .nav-links.open { opacity: 1; transform: none; visibility: visible; pointer-events: auto; transition-delay: 0s; }
-  .nav-links a { min-height: 44px; }
+  .nav-links a { min-height: 44px; color: var(--navy); }
+  .nav-links a::after { left: 14px; right: 14px; }
   .nav-links a, .nav-cta, .nav-menu-btn { padding: 0 14px; }
-  .logo { min-height: 50px; padding: 0 14px 0 12px; font-size: 1.05rem; gap: 8px; }
+  .logo { font-size: 1.05rem; gap: 8px; }
   .logo-mark { width: 22px; height: 22px; }
   .hide-sm { display: none; }
 }
